@@ -2,43 +2,33 @@
  * @param {number[]} nums
  * @return {number[][]}
  */
-var threeSum = function (nums) {
-    let solutionArrays = [];
-    const sortedNums = nums.sort((a, b) => a - b);
-    for (let i = 0; i < sortedNums.length - 2; i++) {
-        if (sortedNums[i] > 0) {
-            break;
-        }
-        if (i > 0 && sortedNums[i] == sortedNums[i - 1]) {
-            continue;
-        }
-        let left = i + 1;
-        let right = sortedNums.length - 1;
-        while (left < right) {
-            const subTotal =
-                sortedNums[left] + sortedNums[right] + sortedNums[i];
+var threeSum = function(nums) {
+    let result = []
+    nums.sort((a,b) => a-b);
 
-            if (subTotal == 0) {
-                solutionArrays.push([
-                    sortedNums[i],
-                    sortedNums[left],
-                    sortedNums[right],
-                ]);
+    for(let i=0; i<nums.length-2; i++){
+        if(i>0 && nums[i] === nums[i-1]) continue;
 
-                do {
-                    left++;
-                } while (sortedNums[left] == sortedNums[left - 1]);
+        let left= i+1;
+        let right= nums.length-1;
 
-                do {
-                    right--;
-                } while (sortedNums[right] == sortedNums[right + 1]);
+        while(left < right){
+            let sum = nums[i] + nums[left] + nums[right]
+            if(sum === 0){
+                result.push([nums[i], nums[left], nums[right]])
+
+                while(left < right && nums[left] === nums[left+1]) left++;
+                while(left < right && nums[right] === nums[right-1]) right--;
+                left ++;
+                right --;
             }
-            else if (subTotal < 0) {
-                left++;
-            } else {
-                right--;
+            else if(sum<0){
+                left++
+            }
+            else{
+                right --;
             }
         }
     }
-    return solutionArrays;
+    return result;
 };
